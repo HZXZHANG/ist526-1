@@ -86,6 +86,28 @@ Can you see the text on mouse hover. Much better but still too wide, right? Let'
 
 Makes no sense, right? This is because we did not aggregate the data. Let's use an aggregation.
 
+# Changing color schemes
+https://vega.github.io/vega/docs/schemes/
+```
+{
+  "data": {
+    "url": "https://raw.githubusercontent.com/smbillah/ist526/main/FB_data.csv"
+  },
+  "transform": [{"fold": ["Open", "Close"]}],
+  "width": 400,
+  "height": 300,
+  "mark": {"type": "line", "tooltip": true},
+  "encoding": {
+    "x": {"field": "Date", "type": "temporal", "timeUnit": "month"},
+    "y": {"field": "value", "type": "quantitative", "aggregate": "min"},
+    "color": {"field": "key", "scale": {"scheme": "yelloworangered"}}
+  }
+}
+
+```
+
+
+
 ```
 {
   "data": {"url": "https://raw.githubusercontent.com/smbillah/ist526/main/FB_data.csv"},

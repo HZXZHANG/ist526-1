@@ -1186,3 +1186,64 @@ See the difference? Our tooltip can show 3 attributes. If we want to show all at
 }
 ```
 
+# Highlight/Conditional Highlight
+Earlier, we saw how to draw a line in a visualization by using `layers` and `mark:rule`. In that example, we drew the `rule` at an aggregated value  specified in `y` encoding. Check the following code below to get an idea:
+
+```
+{
+  "data": {"url": "data/cars.json"},
+  "layer": [
+    {
+      "mark": {"type": "rule", "color": "red"},
+      "encoding": {"y": {"field": "Horsepower", "aggregate":"mean"}}
+    },
+    {
+      "mark": {"type": "bar", "tooltip": {"content": "data"}},
+      "encoding": {
+        "y": {"field": "Horsepower", "type": "quantitative"},
+        "x": {"field": "Name", "type": "Nominal"}
+      }
+    }
+  ]
+}
+```
+
+Do you see a red line along X-axis? How about we draw this line at an arbitrary value (e.g., `y=200`)? To do that, we need `datum` key in the encoding. Check this out: 
+
+```
+{
+  "data": {"url": "data/cars.json"},
+  "layer": [
+    {
+      "mark": {"type": "rule", "color": "red"},
+      "encoding": {"y": {"datum": 200}}
+    },
+    {
+      "mark": {"type": "bar", "tooltip": {"content": "data"}},
+      "encoding": {
+        "y": {"field": "Horsepower", "type": "quantitative"},
+        "x": {"field": "Name", "type": "Nominal"}
+      }
+    }
+  ]
+}
+```
+Do you see another red line along X-axis (at `y=200`)? This is an example of highlighting. We can also highlight visualization by using conditional color. Check this out:
+
+```
+{
+  "data": {"url": "data/cars.json"},      
+  "mark": {"type": "bar", "tooltip": {"content": "data"}},
+  "encoding": {
+    "y": {"field": "Horsepower", "type": "quantitative"},
+    "x": {"field": "Name", "type": "Nominal"},
+    "color": {
+      "condition": {"test": "datum.Name == 'audi 4000'", "value": "red"},
+      "value": "blue"
+    }
+  }
+}
+```
+
+Do you see a car named `audi 4000` is highlighed in `red`? Here, `"condition": {"test": "datum.Name == 'audi 4000'", "value": "red"}` tests whether a condition is true. If so, it uses the value`red`. Otherwise, it uses the default value `blue`.  
+

@@ -532,7 +532,9 @@ Interaction makes data alive. The basic template for an interaction is as follow
   ...
 }
 ```
+
 For example, the following code selects a point on mouse click.
+
 ```
 {  
   "width": 500,
@@ -1088,6 +1090,7 @@ The above graph is too wide. So, we will randomly sample 25 points and fix the w
   }
 }
 ```
+
 Samping is good for but what if we need to perceive all data points? One quick fix is to remove the labels for X-axis. Check it out: 
 
 ```
@@ -1102,7 +1105,7 @@ Samping is good for but what if we need to perceive all data points? One quick f
   }
 }
 
-``
+```
 
 Let's try to sort the graph by `Horsepower`.
 

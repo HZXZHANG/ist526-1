@@ -834,8 +834,8 @@ How do I use multiple filters? Note that the date time field is problematic to u
   "mark": {"type": "circle", "tooltip": true, "clip": true},
   "transform": [
     {"timeUnit": "yearmonthdate", "field": "Date", "as": "Date"},
-    {"filter": " (datum.Open > 160)"},
-    {"filter": " (datum.Open < 180)"},
+    {"filter": "datum.Open > 160"},
+    {"filter": "datum.Open < 180"},
     {"filter": {"field": "Date", "lt": {"year": 2019, "month": 12, "date": 21}}}
   ],
   "encoding": {
@@ -915,8 +915,8 @@ More examples:
   "height": 300,
   "transform": [
     {"timeUnit": "yearmonthdate", "field": "Date", "as": "Date"},
-    {"filter": " (datum.Open > 160)"},
-    {"filter": " (datum.Open < 280)"},
+    {"filter": "datum.Open > 160"},
+    {"filter": "datum.Open < 280"},
     {"filter": {"field": "Date", "lt": {"year": 2019, "month": 12, "date": 21}}}
   ],
   "layer": [
@@ -948,8 +948,8 @@ An interactive version of the same graph:
   "height": 300,
   "transform": [
     {"timeUnit": "yearmonthdate", "field": "Date", "as": "Date"},
-    {"filter": " (datum.Open > 160)"},
-    {"filter": " (datum.Open < 280)"},
+    {"filter": "datum.Open > 160"},
+    {"filter": "datum.Open < 280"},
     {"filter": {"field": "Date", "lt": {"year": 2019, "month": 12, "date": 21}}}
   ],
   "layer": [
@@ -1056,3 +1056,78 @@ overview+detail
 
 
 If you've made this far, congratuations! You now have working knowledge with vega-lite now. 
+
+# Sort
+Let's sort data by an encoding. We will use the default cars.json dataset. 
+
+```
+{
+  "data": {"url": "data/cars.json"},
+  "mark": "bar",  
+  "encoding": {
+    "y": {"field": "Horsepower", "type": "quantitative"},
+    "x": {"field": "Name", "type": "Nominal"}
+  }
+}
+```
+
+The above graph is too wide. So, we will randomly sample 25 points and fix the width and the height, as follows:
+
+```
+{
+  "data": {"url": "data/cars.json"},
+  "mark": "bar",
+  "width": 500,
+  "height": 200,
+  "transform": [{"sample": 25}],
+  "encoding": {
+    "y": {"field": "Horsepower", "type": "quantitative", "sort": "ascending"},
+    "x": {
+      "field": "Name",
+      "type": "Nominal",      
+    }
+  }
+}
+```
+Not sorted by `Horsepower`, right? Hmm. We need to sort by another variable. Take a look at the `sort` key in `y`.
+
+
+```
+{
+  "data": {"url": "data/cars.json"},
+  "mark": "bar",
+  "width": 500,
+  "height": 200,
+  "transform": [{"sample": 25}],
+  "encoding": {
+    "y": {"field": "Horsepower", "type": "quantitative"},
+    "x": {
+      "field": "Name",
+      "type": "Nominal",
+      "sort": "y",
+    }
+  }
+}
+```
+Isn't great? Yes. In fact, the `sort` is more powerful and generic. Here is its generic form.
+
+
+```
+{
+  "data": {"url": "data/cars.json"},
+  "mark": "bar",
+  "width": 500,
+  "height": 200,
+  "transform": [{"sample": 25}],
+  "encoding": {
+    "y": {"field": "Horsepower", "type": "quantitative"},
+    "x": {
+      "field": "Name",
+      "type": "Nominal",
+      "sort": {"field": "Horsepower", "op": "sum"}
+    }
+  }
+}
+```
+
+The above `sort` can sort data by any column. The `op` param take an aggregation (e.g., `count`, `sum`, `min`, ...).

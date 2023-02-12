@@ -1072,7 +1072,6 @@ Let's sort data by an encoding. We will use the default cars.json dataset.
 ```
 
 The above graph is too wide. So, we will randomly sample 25 points and fix the width and the height, as follows:
-
 ```
 {
   "data": {"url": "data/cars.json"},
@@ -1081,10 +1080,45 @@ The above graph is too wide. So, we will randomly sample 25 points and fix the w
   "height": 200,
   "transform": [{"sample": 25}],
   "encoding": {
-    "y": {"field": "Horsepower", "type": "quantitative", "sort": "ascending"},
+    "y": {"field": "Horsepower", "type": "quantitative"},
     "x": {
       "field": "Name",
       "type": "Nominal",      
+    }
+  }
+}
+```
+Samping is good for but what if we need to perceive all data points? One quick fix is to remove the labels for X-axis. Check it out: 
+
+```
+{
+  "data": {"url": "data/cars.json"},
+  "width": 500,
+  "height": 200,
+  "mark": {"type": "bar", "tooltip": true},
+  "encoding": {
+    "y": {"field": "Horsepower", "type": "quantitative"},
+    "x": {"field": "Name", "type": "Nominal", "axis": {"labels": false}}
+  }
+}
+
+``
+
+Let's try to sort the graph by `Horsepower`.
+
+```
+{
+  "data": {"url": "data/cars.json"},
+  "mark": "bar",
+  "width": 500,
+  "height": 200,
+  
+  "encoding": {
+    "y": {"field": "Horsepower", "type": "quantitative", "sort": "ascending"},
+    "x": {
+      "field": "Name",
+      "type": "Nominal",
+      "axis": {"labels": false}
     }
   }
 }
@@ -1097,14 +1131,14 @@ Not sorted by `Horsepower`, right? Hmm. We need to sort by another variable. Tak
   "data": {"url": "data/cars.json"},
   "mark": "bar",
   "width": 500,
-  "height": 200,
-  "transform": [{"sample": 25}],
+  "height": 200,  
   "encoding": {
     "y": {"field": "Horsepower", "type": "quantitative"},
     "x": {
       "field": "Name",
       "type": "Nominal",
-      "sort": "y",
+      "axis": {"labels": false},
+      "sort": "y"
     }
   }
 }
@@ -1117,20 +1151,58 @@ Isn't great? Yes. In fact, the `sort` is more powerful and generic. Here is its 
   "data": {"url": "data/cars.json"},
   "mark": "bar",
   "width": 500,
-  "height": 200,
-  "transform": [{"sample": 25}],
+  "height": 200,  
   "encoding": {
     "y": {"field": "Horsepower", "type": "quantitative"},
     "x": {
       "field": "Name",
       "type": "Nominal",
+      "axis": {"labels": false},
       "sort": {"field": "Horsepower", "op": "sum"}
     }
   }
 }
 ```
 
-The above `sort` can sort data by any column. The `op` param take an aggregation (e.g., `count`, `sum`, `min`, ...).
+The above `sort` can sort data by any column, like by `Miles_per_Gallon`: 
+
+```
+{
+  "data": {"url": "data/cars.json"},
+  "mark": "bar",
+  "width": 500,
+  "height": 200,  
+  "encoding": {
+    "y": {"field": "Horsepower", "type": "quantitative"},
+    "x": {
+      "field": "Name",
+      "type": "Nominal",
+      "axis": {"labels": false},
+      "sort": {"field": "Miles_per_Gallon"}
+    }
+  }
+}
+```
+
+In fact, `sort` can also take an aggregate operator `op`. The `op` takes aggregation operators such as `count`, `sum`, `min`, ....
+```
+{
+  "data": {"url": "data/cars.json"},
+  "mark": "bar",
+  "width": 500,
+  "height": 200,  
+  "encoding": {
+    "y": {"field": "Horsepower", "type": "quantitative"},
+    "x": {
+      "field": "Name",
+      "type": "Nominal",
+      "axis": {"labels": false},
+      "sort": {"field": "Miles_per_Gallon", "op":"mean"}
+    }
+  }
+}
+```
+
 
 # Detail-on-Demand (or Tooltip)
 In the earlier snippets, we simply used `"tooltip": true` in the `mark` to show `x` and `y` encodings.
@@ -1139,12 +1211,11 @@ In the earlier snippets, we simply used `"tooltip": true` in the `mark` to show 
 {
   "data": {"url": "data/cars.json"},
   "width": 500,
-  "height": 200,
-  "transform": [{"sample": 25}],
+  "height": 200,  
   "mark": {"type": "bar", "tooltip": true},
   "encoding": {
     "y": {"field": "Horsepower", "type": "quantitative"},
-    "x": {"field": "Name", "type": "Nominal"}
+    "x": {"field": "Name", "type": "Nominal", "axis": {"labels": false}}
   }
 }
 ```
@@ -1155,12 +1226,11 @@ We can expand `tooltip` by adding it as an encoding channel. Check this out:
 {
   "data": {"url": "data/cars.json"},
   "width": 500,
-  "height": 200,
-  "transform": [{"sample": 25}],
+  "height": 200,  
   "mark": {"type": "bar", "tooltip": true},
   "encoding": {
     "y": {"field": "Horsepower", "type": "quantitative"},
-    "x": {"field": "Name", "type": "Nominal"},
+    "x": {"field": "Name", "type": "Nominal", "axis": {"labels": false}},
     "tooltip": [
       {"field": "Horsepower"},
       {"field": "Name"},
@@ -1176,12 +1246,11 @@ See the difference? Our tooltip can show 3 attributes. If we want to show all at
 {
   "data": {"url": "data/cars.json"},
   "width": 500,
-  "height": 200,
-  "transform": [{"sample": 25}],
+  "height": 200,  
   "mark": {"type": "bar", "tooltip": {"content": "data"}},
   "encoding": {
     "y": {"field": "Horsepower", "type": "quantitative"},
-    "x": {"field": "Name", "type": "Nominal"}
+    "x": {"field": "Name", "type": "Nominal", "axis": {"labels": false}}
   }
 }
 ```
@@ -1192,16 +1261,18 @@ Earlier, we saw how to draw a line in a visualization by using `layers` and `mar
 ```
 {
   "data": {"url": "data/cars.json"},
+  "width": 500,
+  "height": 200,
   "layer": [
     {
       "mark": {"type": "rule", "color": "red"},
-      "encoding": {"y": {"field": "Horsepower", "aggregate":"mean"}}
+      "encoding": {"y": {"field": "Horsepower", "aggregate": "mean"}}
     },
     {
       "mark": {"type": "bar", "tooltip": {"content": "data"}},
       "encoding": {
         "y": {"field": "Horsepower", "type": "quantitative"},
-        "x": {"field": "Name", "type": "Nominal"}
+        "x": {"field": "Name", "type": "Nominal", "axis": {"labels": false}}
       }
     }
   ]
@@ -1213,6 +1284,8 @@ Do you see a red line along X-axis? How about we draw this line at an arbitrary 
 ```
 {
   "data": {"url": "data/cars.json"},
+  "width": 500,
+  "height": 200,
   "layer": [
     {
       "mark": {"type": "rule", "color": "red"},
@@ -1222,7 +1295,7 @@ Do you see a red line along X-axis? How about we draw this line at an arbitrary 
       "mark": {"type": "bar", "tooltip": {"content": "data"}},
       "encoding": {
         "y": {"field": "Horsepower", "type": "quantitative"},
-        "x": {"field": "Name", "type": "Nominal"}
+        "x": {"field": "Name", "type": "Nominal", "axis": {"labels": false}}
       }
     }
   ]
@@ -1232,11 +1305,13 @@ Do you see another red line along X-axis (at `y=200`)? This is an example of hig
 
 ```
 {
-  "data": {"url": "data/cars.json"},      
+  "data": {"url": "data/cars.json"},
+  "width": 500,
+  "height": 200,
   "mark": {"type": "bar", "tooltip": {"content": "data"}},
   "encoding": {
     "y": {"field": "Horsepower", "type": "quantitative"},
-    "x": {"field": "Name", "type": "Nominal"},
+    "x": {"field": "Name", "type": "Nominal", "axis": {"labels": false}},
     "color": {
       "condition": {"test": "datum.Name == 'audi 4000'", "value": "red"},
       "value": "blue"
@@ -1245,5 +1320,5 @@ Do you see another red line along X-axis (at `y=200`)? This is an example of hig
 }
 ```
 
-Do you see a car named `audi 4000` is highlighed in `red`? Here, `"condition": {"test": "datum.Name == 'audi 4000'", "value": "red"}` tests whether a condition is true. If so, it uses the value`red`. Otherwise, it uses the default value `blue`.  
+Do you see a car named `audi 4000` is highlighed in `red`? Here, `"condition": {"test": "datum.Name == 'audi 4000'", "value": "red"}` tests whether a condition is true. If so, it uses the value `red`. Otherwise, it uses the default value `blue`.  
 

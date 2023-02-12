@@ -1131,3 +1131,58 @@ Isn't great? Yes. In fact, the `sort` is more powerful and generic. Here is its 
 ```
 
 The above `sort` can sort data by any column. The `op` param take an aggregation (e.g., `count`, `sum`, `min`, ...).
+
+# Detail-on-Demand (or Tooltip)
+In the earlier snippets, we simply used `"tooltip": true` in the `mark` to show `x` and `y` encodings.
+
+```
+{
+  "data": {"url": "data/cars.json"},
+  "width": 500,
+  "height": 200,
+  "transform": [{"sample": 25}],
+  "mark": {"type": "bar", "tooltip": true},
+  "encoding": {
+    "y": {"field": "Horsepower", "type": "quantitative"},
+    "x": {"field": "Name", "type": "Nominal"}
+  }
+}
+```
+
+We can expand `tooltip` by adding it as an encoding channel. Check this out:
+
+```
+{
+  "data": {"url": "data/cars.json"},
+  "width": 500,
+  "height": 200,
+  "transform": [{"sample": 25}],
+  "mark": {"type": "bar", "tooltip": true},
+  "encoding": {
+    "y": {"field": "Horsepower", "type": "quantitative"},
+    "x": {"field": "Name", "type": "Nominal"},
+    "tooltip": [
+      {"field": "Horsepower"},
+      {"field": "Name"},
+      {"field": "Cylinders"}
+    ]
+  }
+}
+```
+
+See the difference? Our tooltip can show 3 attributes. If we want to show all attributes by defualt, we can use a shortcut in the `mark`: instead of `"tooltip":true`, we can use `"tooltip": {"content": "data"}`, This will use all attributes from the `data`. Check this out:
+
+```
+{
+  "data": {"url": "data/cars.json"},
+  "width": 500,
+  "height": 200,
+  "transform": [{"sample": 25}],
+  "mark": {"type": "bar", "tooltip": {"content": "data"}},
+  "encoding": {
+    "y": {"field": "Horsepower", "type": "quantitative"},
+    "x": {"field": "Name", "type": "Nominal"}
+  }
+}
+```
+

@@ -1,4 +1,4 @@
-﻿ID1,Name,Locomotion,Perception,Grasping & Manipulation,Communication with Human,Communication with Robots, Purpose
+ID,Name,Locomotion,Perception,Grasping_Manipulation,Communication_with_Human,Communication_with_Robots, Purpose
 1,Astro,1,1,0,1,0,Amazon
 2,Atlas,1,1,1,1,0,"Boston Dynamic, humanoid"
 3,Ava,1,1,0,1,0,Tele-presence

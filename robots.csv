@@ -1,0 +1,24 @@
+﻿ID1,Name,Locomotion,Perception,Grasping & Manipulation,Communication with Human,Communication with Robots, Purpose
+1,Astro,1,1,0,1,0,Amazon
+2,Atlas,1,1,1,1,0,"Boston Dynamic, humanoid"
+3,Ava,1,1,0,1,0,Tele-presence
+4,Baxter/Sawyer,0,1,1,1,0,"Table-top, insdustrial,red-black"
+5,Da Vinci (medical),0,1,1,1,0,surgical
+6,EMO,1,1,0,1,0,"Desktop, pet, small"
+7,Everyday Robot,1,1,1,1,0,Fired. Google
+8,LoCoBot,1,1,1,1,0,"Dr. Reza, low-cost"
+9,NAO,1,1,1,1,0,"Softbank, humanoid"
+10,Ohmni,1,1,0,1,0,telepresence
+11,PARO ,0,1,0,1,0,"Therapeutic pet, fired"
+12,Pepper,1,1,1,1,0,"NAO-like, display"
+13,Plato relay robots,1,1,0,1,0,"Food, delivery"
+14,PR2 ,1,1,1,1,0,"Fold clothes, industrial"
+15,Reachy,1,1,0,1,0,
+16,Roomba,1,1,1,1,0,House cleaning
+17,Savioke relay robot,1,1,0,1,0,"Relay, robot server"
+18,Spot ,1,1,1,1,0,Dog
+19,Stretch ,1,1,1,1,0,Warehouse robot
+20,TurtleBot,1,1,1,1,0,Small robot without arms
+21,Unitree Go 1,1,1,1,1,0,Dog Chinese with tail
+22,Vgo ,1,0,0,1,0,Telepresent robot
+23,Kilobot,1,1,0,1,1,“Swarms” of robots

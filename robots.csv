@@ -21,4 +21,4 @@ ID,Name,Locomotion,Perception,Grasping_Manipulation,Communication_with_Human,Com
 20,TurtleBot,1,1,1,1,0,Small robot without arms
 21,Unitree Go 1,1,1,1,1,0,Dog Chinese with tail
 22,Vgo ,1,0,0,1,0,Telepresent robot
-23,Kilobot,1,1,0,1,1,“Swarms” of robots
+23,Kilobot,1,1,0,0,1,“Swarms” of robots
